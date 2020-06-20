@@ -1,5 +1,6 @@
 const express = require('express');
 const next = require('next')
+const cacheableResponse = require('cacheable-response')
 const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -27,12 +28,29 @@ function normalizePort(val) {
 	}
 	return false;
 }
+
+const ssrCache = cacheableResponse({
+  ttl: 1000 * 60 * 60, // 1hour
+  get: async ({ req, res }) => {
+    const data = await nextApp.renderToHTML(req, res, req.path, {
+      ...req.query,
+      ...req.params,
+    })
+    if (res.statusCode === 404) {
+      res.end(data)
+      return
+    }
+    return { data }
+  },
+  send: ({ data, res }) => res.send(data),
+})
+
 nextApp.prepare().then(() => {
 
   const app = express();
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'jade');
-  
+
   app.use(
     cors({
       credentials: true
@@ -49,6 +67,8 @@ nextApp.prepare().then(() => {
   app.use(express.json());
   app.use(helmet());
   app.use(logger('dev'));
+
+  app.get('/', (req, res) => ssrCache({ req, res }))
 
   // put router calling
   app.use('/blogs', blogs);
