@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
