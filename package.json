@@ -1,0 +1,33 @@
+{
+  "name": "next-express-server",
+  "version": "1.0.0",
+  "description": "NextJS and ExpressJS server integration",
+  "author": {
+    "name": "Anil D. Rajole",
+    "email": "rajoleanil75@gmail.com"
+  },
+  "license": "MIT",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "4.17.1",
+    "helmet": "^3.23.1",
+    "jade": "^1.11.0",
+    "morgan": "^1.10.0",
+    "next": "latest",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "pm2": "^4.2.3"
+  }
+}
