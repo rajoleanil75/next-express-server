@@ -1,9 +1,24 @@
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link'
-import useSwr from 'swr'
-const fetcher = (url) => fetch(url).then((res) => res.json())
+import axios from 'axios'
 
 export default function Home() {
-  const { data, error } = useSwr(`/blogs/get`, fetcher)
+  const [blogData, setBlogData] = useState('');
+
+  useEffect(() => {
+    axios
+    .get(`/blogs/get`)
+    .then((response) => {
+      if (response.status === 200)
+        setBlogData(response.data);
+      else
+        setBlogData('Error occured while fetching data..!!');
+    })
+    .catch((errors) => {
+      setBlogData('Error occured while fetching data..!!');
+    });
+  });
+
   return (
     <>
       <ul>
@@ -19,7 +34,7 @@ export default function Home() {
         </li>
       </ul>
       <br />
-      {data}
+      {blogData}
     </>
   )
 }
