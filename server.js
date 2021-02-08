@@ -38,6 +38,7 @@ const nextApp = next({ dev })
 const handle = nextApp.getRequestHandler()
 
 var blogs = require('./server/routes/blogs');
+var public = require('./server/routes/public');
 
 // Validate and Normalize port
 function normalizePort(val) {
@@ -92,6 +93,8 @@ nextApp.prepare().then(() => {
 
   // put router calling
   app.use('/blogs', blogs);
+  app.use('/public', public);
+
 
   app.get('*', (req,res) => {
     return handle(req,res) // for all the react pages
